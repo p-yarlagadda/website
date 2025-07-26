@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Minimal Site</title>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* Basic Reset & Body Styling */
+        body {
+            margin: 0;
+            font-family: "Merriweather", serif; /* Modern serif font */
+            background-color: #ffffff; /* White background */
+            color: #333; /* Dark grey text for readability */
+            line-height: 1.5; /* Slightly tighter line spacing for smaller text */
+            padding: 0; /* Remove body padding, will add to main content */
+            display: flex; /* Use flexbox for main content alignment */
+            flex-direction: column;
+            min-height: 100vh; /* Ensure body takes full viewport height */
+            font-size: 0.8em; /* Even smaller base font size */
+        }
+
+        /* Header Styling (Top Bar) */
+        header {
+            background-color: #f8f8f8; /* Light grey background for the bar */
+            padding: 10px 20px;
+            border-bottom: 1px solid #eee;
+            display: flex; /* Use flexbox for alignment of h1 and nav */
+            align-items: center; /* Vertically align items in the middle */
+            justify-content: flex-start; /* Align items to the start (left) */
+        }
+
+        header h1 {
+            margin: 0; /* Remove default margin */
+            font-size: 1.8em; /* Smaller title for the top bar */
+            color: #333; /* Dark grey instead of black */
+            margin-right: 30px; /* Increased space between title and nav */
+            white-space: nowrap; /* Prevent title from wrapping */
+        }
+
+        nav {
+            /* No specific display needed here as flex item */
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #007bff; /* Blue for links */
+            margin: 0 10px; /* Space between nav links */
+            font-weight: bold;
+            font-size: 1em; /* Standard font size for nav links */
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: #0056b3; /* Darker blue on hover */
+        }
+
+        /* Main Content Area */
+        main {
+            flex-grow: 1; /* Allow main content to grow and push footer down */
+            max-width: 700px; /* Max width for content */
+            margin: 0 auto; /* Center main content */
+            padding: 15px; /* Padding for the main content area */
+            box-sizing: border-box; /* Include padding in width */
+            width: 100%; /* Ensure it takes full width up to max-width */
+        }
+
+        /* Section Styling */
+        .section {
+            display: none; /* Hidden by default */
+            padding: 15px 0; /* Padding within sections */
+        }
+
+        .section.active {
+            display: block; /* Show active section */
+        }
+
+        /* Home Section specific styling */
+        #home p {
+            text-align: center; /* Center the about paragraph */
+            margin-top: 20px;
+            font-size: 1.1em; /* Slightly larger for the main intro text */
+        }
+
+        /* Articles List Styling */
+        #articles-list {
+            display: none; /* Hidden by default */
+        }
+
+        #articles-list ul {
+            list-style: none; /* Remove bullet points */
+            padding: 0;
+            margin: 20px 0;
+        }
+
+        #articles-list li {
+            margin-bottom: 15px;
+        }
+
+        #articles-list li a {
+            text-decoration: none;
+            color: #007bff;
+            font-size: 1.2em;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        #articles-list li a:hover {
+            color: #0056b3;
+        }
+
+        #articles-list .article-date {
+            display: block;
+            font-size: 0.75em;
+            color: #777;
+            margin-top: 5px;
+        }
+
+        /* Article Detail View Styling */
+        .article-detail-content {
+            display: none; /* Hidden by default */
+        }
+
+        .article-detail-content h3 {
+            margin-top: 0;
+            font-size: 1.6em;
+            color: #222;
+            margin-bottom: 10px;
+        }
+
+        .article-detail-content .date {
+            font-size: 0.8em;
+            color: #777;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        /* Now Page Styling */
+        #now h2 {
+            margin-top: 0;
+            color: #222; /* Dark grey */
+            font-size: 1.5em;
+            margin-bottom: 15px;
+        }
+
+        #now ul {
+            list-style: disc; /* Use bullet points */
+            padding-left: 20px;
+            margin-bottom: 20px;
+        }
+
+        #now ul li {
+            margin-bottom: 8px;
+        }
+
+        /* Gallery Styling - Updated for line-by-line with captions */
+        .gallery-item {
+            margin-bottom: 25px; /* Space between each image-caption pair */
+            text-align: center; /* Center image and caption */
+        }
+
+        .gallery-item img {
+            max-width: 100%; /* Ensure image fits within container */
+            height: auto;
+            display: block; /* Block level to allow margin auto for centering */
+            margin: 0 auto 10px auto; /* Center image and add space below */
+            border: 1px solid #ddd;
+            padding: 3px;
+            box-sizing: border-box;
+        }
+
+        .gallery-item .caption {
+            font-size: 0.85em; /* Caption font size */
+            color: #555; /* Medium grey */
+            margin-top: 5px;
+            font-style: italic;
+        }
+
+        /* Go Back Home Button Styling */
+        .go-home-button {
+            display: block; /* Make it a block element */
+            width: fit-content; /* Fit content width */
+            margin: 30px auto 0 auto; /* Center the button and add top margin */
+            padding: 10px 15px;
+            background-color: #f0f0f0; /* Light grey background */
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            text-decoration: none;
+            color: #007bff; /* Blue text */
+            font-weight: bold;
+            font-size: 0.9em;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .go-home-button:hover {
+            background-color: #e0e0e0; /* Darker grey on hover */
+            color: #0056b3; /* Darker blue on hover */
+        }
+
+        /* Back to Articles Button Styling */
+        .back-to-articles-button {
+            display: block;
+            width: fit-content;
+            margin: 30px auto 0 auto;
+            padding: 10px 15px;
+            background-color: #f0f0f0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+            font-size: 0.9em;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .back-to-articles-button:hover {
+            background-color: #e0e0e0;
+            color: #0056b3;
+        }
+
+        /* Footer Styling */
+        footer {
+            text-align: center;
+            padding-top: 15px; /* Reduced padding */
+            margin-top: auto; /* Push footer to the bottom */
+            border-top: 1px solid #eee;
+            font-size: 0.65em; /* Even smaller footer font */
+            color: #888; /* Light grey */
+        }
+
+        /* Media queries for responsiveness */
+        @media (max-width: 600px) {
+            header {
+                flex-direction: column; /* Stack title and nav on small screens */
+                align-items: flex-start; /* Align stacked items to the left */
+                padding: 10px;
+            }
+            header h1 {
+                margin-bottom: 10px;
+                margin-right: 0; /* Remove right margin when stacked */
+            }
+            nav a {
+                display: block; /* Make nav links block-level for better tapping */
+                margin: 5px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>My Simple Corner</h1>
+        <nav>
+            <a href="#home">Home</a>
+            <a href="#articles">Articles</a>
+            <a href="#gallery">Gallery</a>
+            <a href="#now">Now</a>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Home Section (now contains the "about me" paragraph) -->
+        <section id="home" class="section">
+            <p>Welcome to my little corner of the internet. I'm a minimalist at heart, enjoying simple pleasures and the quiet beauty of a digital space that respects your bandwidth. Here, I share thoughts, images, and whatever else catches my eye, all designed to be light and to the point.</p>
+        </section>
+
+        <!-- Articles Section -->
+        <section id="articles" class="section">
+            <!-- List of Article Links -->
+            <div id="articles-list">
+                <h2>Latest Articles</h2>
+                <ul>
+                    <li>
+                        <a href="#article-joy-simplicity">The Joy of Simplicity</a>
+                        <span class="article-date">July 26, 2025</span>
+                    </li>
+                    <li>
+                        <a href="#article-walk-park">A Walk Through the Park</a>
+                        <span class="article-date">July 15, 2025</span>
+                    </li>
+                    <li>
+                        <a href="#article-starting-small">Starting Small</a>
+                        <span class="article-date">July 01, 2025</span>
+                    </li>
+                </ul>
+                <a href="#home" class="go-home-button">Go Back Home</a>
+            </div>
+
+            <!-- Individual Article Content (hidden by default) -->
+            <div id="article-detail-view">
+                <div id="article-joy-simplicity" class="article-detail-content">
+                    <h3>The Joy of Simplicity</h3>
+                    <span class="date">July 26, 2025</span>
+                    <p>In a world increasingly cluttered with complexity, there's a profound joy to be found in simplicity. This website, for instance, is a testament to the idea that less can indeed be more. It's about focusing on content, making it accessible, and keeping the digital footprint light. What simple pleasures have you rediscovered lately?</p>
+                    <p>Embracing simplicity isn't just about decluttering physical spaces; it extends to our digital lives, our routines, and even our thoughts. By stripping away the non-essential, we create room for what truly matters, fostering clarity and reducing mental noise. It's a journey, not a destination, but every step towards a simpler life brings its own rewards.</p>
+                    <a href="#articles" class="back-to-articles-button">&larr; Back to Articles</a>
+                </div>
+
+                <div id="article-walk-park" class="article-detail-content">
+                    <h3>A Walk Through the Park</h3>
+                    <span class="date">July 15, 2025</span>
+                    <p>Yesterday, I took a long walk through the local park. The sun was shining, a gentle breeze rustled the leaves, and the birds were singing. It's amazing how much clarity and peace a simple connection with nature can bring. Sometimes, all you need is a moment to breathe and observe the beauty around you.</p>
+                    <p>The rustling leaves, the distant chatter of children, the scent of fresh-cut grass – these small sensory details can ground us and provide a much-needed respite from daily stresses. It's a reminder that beauty often lies in the most ordinary of moments, if only we take the time to notice.</p>
+                    <a href="#articles" class="back-to-articles-button">&larr; Back to Articles</a>
+                </div>
+
+                <div id="article-starting-small" class="article-detail-content">
+                    <h3>Starting Small</h3>
+                    <span class="date">July 01, 2025</span>
+                    <p>Every great journey begins with a single step. This blog is my small step into sharing thoughts and things I appreciate. It's not about grand gestures, but about consistency and the quiet satisfaction of building something, however modest. What small steps are you taking today?</p>
+                    <p>Whether it's learning a new skill, adopting a healthier habit, or embarking on a creative project, the initial steps are often the most daunting. But by breaking down large goals into manageable, small actions, we build momentum and confidence. Incremental progress, over time, leads to significant achievements.</p>
+                    <a href="#articles" class="back-to-articles-button">&larr; Back to Articles</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gallery Section -->
+        <section id="gallery" class="section">
+            <h2>Images I Like</h2>
+            <!-- Gallery items displayed line by line with captions -->
+            <div class="gallery-item">
+                <img src="https://placehold.co/400x250/cccccc/333333?text=Calm+Lake" alt="A calm lake at sunrise with mist rising.">
+                <p class="caption">A serene morning by the lake, where peace resides.</p>
+            </div>
+            <div class="gallery-item">
+                <img src="https://placehold.co/400x250/aaaaaa/ffffff?text=Mountain+View" alt="Majestic mountains under a clear sky.">
+                <p class="caption">The grandeur of mountains, touching the sky.</p>
+            </div>
+            <div class="gallery-item">
+                <img src="https://placehold.co/400x250/bbbbbb/000000?text=Forest+Path" alt="A winding path through a dense forest.">
+                <p class="caption">A quiet path through the woods, inviting exploration.</p>
+            </div>
+            <div class="gallery-item">
+                <img src="https://placehold.co/400x250/dddddd/555555?text=City+Lights" alt="City skyline at night with twinkling lights.">
+                <p class="caption">The vibrant glow of city lights after dusk.</p>
+            </div>
+            <div class="gallery-item">
+                <img src="https://placehold.co/400x250/eeeeee/777777?text=Old+Book" alt="An open old book with worn pages.">
+                <p class="caption">The timeless beauty and wisdom of an old book.</p>
+            </div>
+            <div class="gallery-item">
+                <img src="https://placehold.co/400x250/999999/eeeeee?text=Coffee+Cup" alt="A steaming cup of coffee on a wooden table.">
+                <p class="caption">A simple pleasure: the warmth of a morning coffee.</p>
+            </div>
+            <a href="#home" class="go-home-button">Go Back Home</a>
+        </section>
+
+        <!-- Now Page Section -->
+        <section id="now" class="section">
+            <h2>What I'm Up To Now</h2>
+            <h3>Listening</h3>
+            <ul>
+                <li><strong>Music:</strong> Currently enjoying ambient soundscapes for focus.</li>
+                <li><strong>Podcasts:</strong> "The Daily" for news, and "Stuff You Should Know" for random facts.</li>
+            </ul>
+
+            <h3>Reading</h3>
+            <ul>
+                <li><strong>Book:</strong> "Atomic Habits" by James Clear (re-read for productivity tips).</li>
+                <li><strong>Articles:</strong> Keeping up with minimalist web design trends.</li>
+            </ul>
+
+            <h3>Writing</h3>
+            <ul>
+                <li><strong>Working on:</strong> A new article about the benefits of digital decluttering.</li>
+                <li><strong>Journaling:</strong> Daily reflections on personal growth and observations.</li>
+            </ul>
+            <a href="#home" class="go-home-button">Go Back Home</a>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 My Simple Corner. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Function to handle showing sections or articles based on hash
+        function navigateToHash() {
+            const hash = window.location.hash.substring(1); // Get hash without '#'
+            let sectionToShow = 'home'; // Default to home
+
+            // Hide all main sections and article details
+            document.querySelectorAll('.section').forEach(section => section.classList.remove('active'));
+            document.getElementById('articles-list').style.display = 'none';
+            document.getElementById('article-detail-view').style.display = 'none';
+            document.querySelectorAll('.article-detail-content').forEach(content => content.style.display = 'none');
+
+            if (hash) {
+                if (hash.startsWith('article-')) {
+                    // It's an individual article
+                    document.getElementById('articles').classList.add('active'); // Activate the main articles section
+                    document.getElementById('article-detail-view').style.display = 'block';
+                    const articleContent = document.getElementById(hash);
+                    if (articleContent) {
+                        articleContent.style.display = 'block';
+                    } else {
+                        // If article hash is invalid, show articles list
+                        document.getElementById('articles-list').style.display = 'block';
+                    }
+                } else if (document.getElementById(hash)) {
+                    // It's a main section (home, gallery, now)
+                    document.getElementById(hash).classList.add('active');
+                    if (hash === 'articles') {
+                        // If the main articles section is clicked, show the list
+                        document.getElementById('articles-list').style.display = 'block';
+                    }
+                } else {
+                    // Invalid hash, default to home
+                    document.getElementById('home').classList.add('active');
+                }
+            } else {
+                // No hash, default to home
+                document.getElementById('home').classList.add('active');
+            }
+        }
+
+        // Event listener for hash changes (browser back/forward buttons)
+        window.addEventListener('hashchange', navigateToHash);
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            navigateToHash(); // Call on initial load
+        });
+    </script>
+
+</body>
+</html>
